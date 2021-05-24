@@ -104,8 +104,19 @@ namespace Strawberry
 
 		private void TrackComponent(Component c)
 		{
-			for (let t in Tracker.AssignmentLists[c.GetType()])
+			for (let t in Tracker.AssignmentLists[c.GetType()]) {
+				// If component type not in tracker, add to tracker
+				var match = false;
+				for (let kvPair in componentTracker) {
+					if (kvPair.key == t) {
+						match = true;
+					}
+				}
+				if (!match) {
+					componentTracker.Add(t, new List<Component>());
+				}
 				componentTracker[t].Add(c);
+			}
 		}
 
 		private void UntrackComponent(Component c)
